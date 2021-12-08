@@ -1,7 +1,7 @@
 import csv
 import pandas as pd
 
-class admin:
+class ADMIN:
     """
     This class is used to set and handle a user account.
     It has total total 6 modules create user, show details of user, show transactions, freeze account, set limit for
@@ -10,22 +10,34 @@ class admin:
     def __init__(self):
         pass
 
-# create User
+# create USER
     def create_user(self):
-        self.name = input("User Name : ")
-        self.account_number = int(input("User Account number : "))
+        self.name = input("USER Name : ")
+        self.account_number = int(input("USER Account number : "))
         self.transaction_limit = int(input("Set transaction limit : "))
         self.deposit_amount = int(input("Amount to be deposited : "))
-        self.Pin = int(input("SET PIN FOR USER : "))
+        self.pin = int(input("SET PIN FOR USER : "))
         self.user_data = {'Account Number': self.account_number, 'Name': self.name, 'Balance': self.deposit_amount,
-                          'Transaction Limit': self.transaction_limit, 'Pin': self.Pin, 'Account Status': "ACTIVE"}
-        with open('File1.csv', 'a', newline='') as file:
-            field_name = ['Account Number', 'Name', 'Balance', 'Transaction Limit', 'Pin', 'Account Status']
-            self.infile = csv.DictWriter(file, fieldnames=field_name)
-            self.infile.writerow(self.user_data)
+                          'Transaction Limit': self.transaction_limit, 'pin': self.pin, 'Account Status': "ACTIVE"}
+        self.found = False
+        with open('File1.csv', 'r') as fr:
+            reader = csv.reader(fr)
+            for row in reader:
+                if row[0] == str(self.account_number):
+                    self.found = True
+        fr.close()
+        if self.found == False:
+            with open('File1.csv', 'a', newline='') as file:
+                field_name = ['Account Number', 'Name', 'Balance', 'Transaction Limit', 'pin', 'Account Status']
+                self.infile = csv.DictWriter(file, fieldnames=field_name)
+                self.infile.writerow(self.user_data)
             file.close()
+            print(f"\nNEW USER '{self.name}' HAS BEEN ADDED.\n")
+        else:
+            print("THIS ACCOUNT EXISTS. PLEASE CHANGE ACCOUNT NUMBER.")
+            self.create_user()
 
-        print(f"\nNew user '{self.name}' has been added successfully.\n")
+
 
 # DETAILS OF USER
     def show_details(self):
@@ -75,7 +87,7 @@ class admin:
             else:
                 print("\nENTER VALID ACCOUNT NUMMBER\n")
 
-# Set Limit For the User
+# Set Limit For the user
     def set_limit(self):
         self.account = str(input("TYPE ACCOUNT NUMBER : "))
         with open("File1.csv", 'r') as fl:

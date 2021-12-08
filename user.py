@@ -1,13 +1,13 @@
-import Admin
+import admin
 import csv
 import pandas as pd
 import datetime
 
 
-# class User
-class User(Admin.admin):
+# class USER
+class USER(admin.ADMIN):
     """
-    This is a sub class of admin class.
+    This is a sub class of ADMIN class.
     It is consist of total six modules check balance, deposit amount, withdraw amount, set pin, transfer amount and show
     transaction history.
     """
@@ -27,7 +27,7 @@ class User(Admin.admin):
                 if row[0] == self.typeAccNum and row[4] == self.pin:
                     self.found_acount = True
                     self.user_info_1 = {"Account Number": row[0], "Name": row[1], "Balance": row[2],
-                                        "Transfer Limit": row[3], "Pin": row[4], "Account Status": row[5]}
+                                        "Transfer Limit": row[3], "pin": row[4], "Account Status": row[5]}
                     self.account_status = self.user_info_1['Account Status']
             rf.close()
             if self.found_acount == False:
@@ -40,11 +40,11 @@ class User(Admin.admin):
                 print("\n----------SUCCESSFULLY LOGGED IN.----------\n")
 
     # check balance
-    def checkBalance(self):
+    def check_balance(self):
         print(f"AVAILABLE BALANCE : {self.user_info_1['Balance']} Rs.")
 
     # File Update
-    def update_dalance(self, account_number, balance):
+    def update_balance(self, account_number, balance):
         self.account_num = account_number
         self.new_Balance = balance
         with open("File1.csv", 'r') as fs:
@@ -100,7 +100,7 @@ class User(Admin.admin):
         self.available_balance = int(self.user_info_1['Balance'])
         self.deposit = int(input("ENTER AMOUNT TO BE DEPOSITED : "))
         self.new_balance = self.available_balance + self.deposit
-        self.update_dalance(self.user_info_1['Account Number'], self.new_balance)
+        self.update_balance(self.user_info_1['Account Number'], self.new_balance)
         self.update_transaction(self.user_info_1['Account Number'], 'Deposited', self.deposit)
 
     # withdraw amount
@@ -114,7 +114,7 @@ class User(Admin.admin):
                 self.tlimit_remaining = self.tlimit - self.withdraw
                 print(f"YOUR REMAINING BALANCE IS {self.remaining} Rs."
                       f"YOUR REMAING TRANSACTION LIMIT IS {self.tlimit_remaining} RS")
-                self.update_dalance(self.user_info_1['Account Number'], self.remaining)
+                self.update_balance(self.user_info_1['Account Number'], self.remaining)
                 self.update_transaction_limit(self.user_info_1['Account Number'], self.tlimit_remaining)
                 self.update_transaction('Withdrawed', self.user_info_1['Account Number'], self.withdraw)
             else:
@@ -151,7 +151,7 @@ class User(Admin.admin):
             if self.rtlimit >= self.amountbt:
                 self.new_balance = self.accountbalance - self.amountbt
                 self.remining_limit = self.rtlimit - self.amountbt
-                self.update_dalance(self.user_info_1['Account Number'], self.new_balance)
+                self.update_balance(self.user_info_1['Account Number'], self.new_balance)
                 self.update_transaction_limit(self.user_info_1['Account Number'], self.remining_limit)
                 self.update_transaction(self.accountT, self.user_info_1['Account Number'], self.amountbt)
 
