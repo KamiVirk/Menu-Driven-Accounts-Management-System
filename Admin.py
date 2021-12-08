@@ -11,14 +11,14 @@ class admin:
         pass
 
 # create User
-    def createUser(self):
+    def create_user(self):
         self.name = input("User Name : ")
         self.account_number = int(input("User Account number : "))
         self.transaction_limit = int(input("Set transaction limit : "))
         self.deposit_amount = int(input("Amount to be deposited : "))
         self.Pin = int(input("SET PIN FOR USER : "))
-        self.user_data = {'Account Number':self.account_number, 'Name':self.name, 'Balance':self.deposit_amount,
-                          'Transaction Limit':self.transaction_limit, 'Pin':self.Pin, 'Account Status': "ACTIVE"}
+        self.user_data = {'Account Number': self.account_number, 'Name': self.name, 'Balance': self.deposit_amount,
+                          'Transaction Limit': self.transaction_limit, 'Pin': self.Pin, 'Account Status': "ACTIVE"}
         with open('File1.csv', 'a', newline='') as file:
             field_name = ['Account Number', 'Name', 'Balance', 'Transaction Limit', 'Pin', 'Account Status']
             self.infile = csv.DictWriter(file, fieldnames=field_name)
@@ -95,7 +95,7 @@ class admin:
                     fsl.close()
 
 # Delete account
-    def Deleteaccount(self):
+    def delete_account(self):
         self.accountNumber = str(input("ENTER ACCOUNT NUMBER TO DELETE THE ACCOUNT : "))
         self.found = True
         with open('File1.csv', 'r') as File:

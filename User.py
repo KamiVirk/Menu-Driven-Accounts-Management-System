@@ -1,18 +1,21 @@
-import ADMIN
+import Admin
 import csv
 import pandas as pd
 import datetime
 
+
 # class User
-class User(ADMIN):
+class User(Admin.admin):
     """
-    this is a sub class for user actions of admin class.
-    it is consist of total 
+    This is a sub class of admin class.
+    It is consist of total six modules check balance, deposit amount, withdraw amount, set pin, transfer amount and show
+    transaction history.
     """
+
     def __init__(self):
         pass
 
- # user login
+    # user login
     def user_login(self):
         self.typeAccNum = str(input("ENTER YOUR ACCOUNT NUMBER : "))
         self.pin = input("ENTER ACCOUNT PIN : ")
@@ -24,7 +27,7 @@ class User(ADMIN):
                 if row[0] == self.typeAccNum and row[4] == self.pin:
                     self.found_acount = True
                     self.user_info_1 = {"Account Number": row[0], "Name": row[1], "Balance": row[2],
-                                        "Transfer Limit": row[3], "Pin": row[4], "Account Status" : row[5]}
+                                        "Transfer Limit": row[3], "Pin": row[4], "Account Status": row[5]}
                     self.account_status = self.user_info_1['Account Status']
             rf.close()
             if self.found_acount == False:
@@ -36,11 +39,11 @@ class User(ADMIN):
             else:
                 print("\n----------SUCCESSFULLY LOGGED IN.----------\n")
 
-# check balance
+    # check balance
     def checkBalance(self):
         print(f"AVAILABLE BALANCE : {self.user_info_1['Balance']} Rs.")
 
-# File Update
+    # File Update
     def update_dalance(self, account_number, balance):
         self.account_num = account_number
         self.new_Balance = balance
@@ -79,9 +82,9 @@ class User(ADMIN):
                     filei.writerows(self.user_info_9)
                     fws.close()
 
-    def update_transaction(self, tAcount, fAccount, amount):
-        self.account_1 = tAcount
-        self.account_2 = fAccount
+    def update_transaction(self, t_account, f_account, amount):
+        self.account_1 = t_account
+        self.account_2 = f_account
         self.amount = amount
         self.date = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         self.Transaction_data = {'Amount': self.amount, 'From Account': self.account_2,
@@ -92,15 +95,15 @@ class User(ADMIN):
             self.infile.writerow(self.Transaction_data)
             file.close()
 
-# deposit amount
+    # deposit amount
     def depositamount(self):
         self.available_balance = int(self.user_info_1['Balance'])
         self.deposit = int(input("ENTER AMOUNT TO BE DEPOSITED : "))
         self.new_balance = self.available_balance + self.deposit
         self.update_dalance(self.user_info_1['Account Number'], self.new_balance)
-        self.update_transaction(self.user_info_1['Account Number'],'Deposited',self.deposit)
+        self.update_transaction(self.user_info_1['Account Number'], 'Deposited', self.deposit)
 
-# withdraw amount
+    # withdraw amount
     def withdraw(self):
         self.balance = int(self.user_info_1['Balance'])
         self.tlimit = int(self.user_info_1['Transfer Limit'])
@@ -119,7 +122,7 @@ class User(ADMIN):
         else:
             print("\nYour balance is low.Please Deposit.\n")
 
-# set pin
+    # set pin
     def setPin(self):
         with open("File1.csv", 'r') as fs:
             reader = csv.reader(fs)
@@ -137,7 +140,7 @@ class User(ADMIN):
                     filei.writerows(self.user_info_4)
                     fws.close()
 
-# transfer amount to other account
+    # transfer amount to other account
     def transfer_amount(self):
         self.accountT = str(input("ENTER ACCOUNT NUMBER TO WHICH YOU WANT TOO TRANSFER : "))
         self.amountbt = int(input("ENTER AMOUNT TO TRANSFER : "))
@@ -150,15 +153,14 @@ class User(ADMIN):
                 self.remining_limit = self.rtlimit - self.amountbt
                 self.update_dalance(self.user_info_1['Account Number'], self.new_balance)
                 self.update_transaction_limit(self.user_info_1['Account Number'], self.remining_limit)
-                self.update_transaction(self.accountT,self.user_info_1['Account Number'], self.amountbt)
-
+                self.update_transaction(self.accountT, self.user_info_1['Account Number'], self.amountbt)
 
             else:
                 print("\nLIMIT EXCCEEDED\n")
         else:
             print("\nLOW BALANCE\n")
 
-# show transaction history
+    # show transaction history
     def transaction_history(self):
         account = str(self.user_info_1["Account Number"])
         df = pd.read_csv('File2.csv')
