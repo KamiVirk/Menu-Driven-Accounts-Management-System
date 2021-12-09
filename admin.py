@@ -1,6 +1,6 @@
 import csv
 import pandas as pd
-
+import datetime
 
 class ADMIN:
     """
@@ -14,11 +14,15 @@ class ADMIN:
 
     # create USER
     def create_user(self):
-        self.name = input("USER Name : ")
-        self.account_number = int(input("USER Account number : "))
-        self.transaction_limit = int(input("Set transaction limit : "))
-        self.deposit_amount = int(input("Amount to be deposited : "))
-        self.pin = int(input("SET PIN FOR USER : "))
+        try:
+            self.name = input("USER Name (Format 'kami' ) : ")
+            self.account_number = int(input("USER Account number (Format '012345' ) : "))
+            self.transaction_limit = int(input("Set transaction limit (Format '012345' ) : "))
+            self.deposit_amount = int(input("Amount to be deposited (Format '012345' ) : "))
+            self.pin = int(input("SET PIN FOR USER (Format '012345' ) : "))
+        except ValueError:
+            print("Invalid Input!Try again")
+            self.create_user()
         self.user_data = {'Account Number': self.account_number, 'Name': self.name, 'Balance': self.deposit_amount,
                           'Transaction Limit': self.transaction_limit, 'pin': self.pin, 'Account Status': "ACTIVE"}
         self.found = False
@@ -41,7 +45,10 @@ class ADMIN:
 
     # DETAILS OF USER
     def show_details(self):
-        self.typeAccount = str(input("TYPE ACCOUNT NUMBER TO GET DETAILS : "))
+        try:
+            self.typeAccount = int(input("TYPE ACCOUNT NUMBER TO GET DETAILS : "))
+        except ValueError:
+            print("TYPE ERROR! TRY DIGIT")
         self.found_row = {}
         with open('File1.csv', 'r') as rf:
             self.readfile = csv.reader(rf)
@@ -77,7 +84,11 @@ class ADMIN:
             for row in reader:
                 if row[0] == str(self.acctF):
                     self.found = True
-                    row[5] = str(input("PLEASE 'F' OR 'FREEZE' TO FREEZE ACCOUNT & 'ACTIVE' TO UNFREEZE : ").upper())
+                    try:
+                        row[5] = str(input("PLEASE 'F' OR 'FREEZE' TO FREEZE ACCOUNT & 'ACTIVE' TO UNFREEZE : ").upper())
+                    except ValueError:
+                        print("Try Again!")
+
                 self.user_info_4.append(row)
             fs.close()
             if self.found == True:
@@ -106,6 +117,8 @@ class ADMIN:
                     filei = csv.writer(fsl)
                     filei.writerows(self.user_data_0)
                     fsl.close()
+            else:
+                print("RECORDS NOT FOUND!")
 
     # Delete account
     def delete_account(self):
@@ -128,5 +141,19 @@ class ADMIN:
         else:
             print("\n RECORD NOT FOUND \n")
 
-    def reports(self):
-        pass
+    """def reports(self):
+
+        self.start_date = str(input("Enter FROM which date you want to check records : Format (YYYYMMDD) : "))
+        self.to_date = str(input("Enter TO which date you want to check records : Format (YYYYMMDD) : "))
+        if not len(self.start_date) == 8:
+            print("INVALID INPUT")
+        else:
+            from_date = str(datetime.datetime.strptime(self.start_date, "%Y-%m-%d"))
+            to_date = str(datetime.datetime.strptime(self.to_date, "%Y-%m-%d"))
+            start_date = pd.to_datetime(from_date, utc=True)
+            t_date = pd.to_datetime(to_date, utc=True)
+            df = pd.read_csv('File2.csv')
+            df2 = df.loc[(df['Date'] > start_date) & (df['Date'] < t_date)]
+            print(df2)"""
+
+

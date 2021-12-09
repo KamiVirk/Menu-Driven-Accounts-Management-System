@@ -19,7 +19,7 @@ if __name__ == "__main__":
             print("\n-----------ADMIN-----------\n")
             press_key_list_2 = {"C": "CREATE ACCOUNT", "S": "SHOW DETAILS", "F": "FREEZE ACCOUNT",
                                 "D": "DELETE ACCOUNT",
-                                "T": "SET TRANSACTION LIMIT", "H": "SHOW TRANSACTIONS", "Q": "QUIT"}
+                                "T": "SET TRANSACTION LIMIT", "H": "SHOW TRANSACTIONS", "R": "SHOW REPORTS", "Q": "QUIT"}
             key_press_2 = False
             for key, value in press_key_list_2.items():
                 print(f"PRESS {key} TO {value}\n")
@@ -50,6 +50,10 @@ if __name__ == "__main__":
             elif key_press_2 == 'h':
                 print("\nSHOW TRANSACTIONS\n")
                 admin.show_transactions()
+
+            elif key_press_2 == 'r':
+                print("\nSHOW REPORTS\n")
+                admin.reports()
 
             elif key_press_2 == 'q':
                 break
