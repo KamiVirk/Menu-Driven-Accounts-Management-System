@@ -13,16 +13,17 @@ if __name__ == "__main__":
     while not (key_press == "q"):
         print(f"\n----------ACCOUNT MANAGEMENT SYSTEM---------\n")
         for key, value in press_key_list.items():
-            print("Press", key, "To", value)
+            print(f"PRESS {key} TO {value}\n")
         key_press = input("Press Key : ").lower()
         if key_press == "a":
-            print("\nCurrent Selection : ADMIN\n")
+            print("\n-----------ADMIN-----------\n")
             press_key_list_2 = {"C": "CREATE ACCOUNT", "S": "SHOW DETAILS", "F": "FREEZE ACCOUNT",
                                 "D": "DELETE ACCOUNT",
                                 "T": "SET TRANSACTION LIMIT", "H": "SHOW TRANSACTIONS", "Q": "QUIT"}
             key_press_2 = False
             for key, value in press_key_list_2.items():
-                print("Press", key, "To", value)
+                print(f"PRESS {key} TO {value}\n")
+            print(f"\n---------------------------------------\n")
             key_press_2 = input("Press Key : ").lower()
             if key_press_2 == 'c':
                 print("\nCREATE USER\n")
@@ -63,7 +64,8 @@ if __name__ == "__main__":
                                 "T": "TRANSFER AMOUNT", "H": "TRANSACTION HISTORY", "Q": "QUIT"}
             key_press_3 = False
             for key, value in press_key_list_3.items():
-                print("Press", key, "To", value)
+                print(f"PRESS {key} TO {value}")
+            print(f"\n---------------------------------------\n")
 
             key_press_3 = input("Press Key : ").lower()
             if key_press_3 == 'c':

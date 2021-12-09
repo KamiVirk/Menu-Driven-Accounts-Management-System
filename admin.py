@@ -1,16 +1,18 @@
 import csv
 import pandas as pd
 
+
 class ADMIN:
     """
     This class is used to set and handle a user account.
     It has total total 6 modules create user, show details of user, show transactions, freeze account, set limit for
     user and delete account. 'File1.csv' should be text file for user data and 'File2.csv' for transaction history.
     """
+
     def __init__(self):
         pass
 
-# create USER
+    # create USER
     def create_user(self):
         self.name = input("USER Name : ")
         self.account_number = int(input("USER Account number : "))
@@ -37,9 +39,7 @@ class ADMIN:
             print("THIS ACCOUNT EXISTS. PLEASE CHANGE ACCOUNT NUMBER.")
             self.create_user()
 
-
-
-# DETAILS OF USER
+    # DETAILS OF USER
     def show_details(self):
         self.typeAccount = str(input("TYPE ACCOUNT NUMBER TO GET DETAILS : "))
         self.found_row = {}
@@ -49,7 +49,8 @@ class ADMIN:
             for row in self.readfile:
                 if row[0] == self.typeAccount:
                     self.found_user = True
-                    self.found_row = {"Account Number": row[0], "Name": row[1], "Balance": row[2], "Transfer Limit": row[3], 'Account Status': row[5]}
+                    self.found_row = {"Account Number": row[0], "Name": row[1], "Balance": row[2],
+                                      "Transfer Limit": row[3], 'Account Status': row[5]}
 
             if self.found_user == False:
                 print("\n----------INVALID CREDENTIALS.----------\n")
@@ -61,12 +62,12 @@ class ADMIN:
                       f"|Transfer limit : {self.found_row['Transfer Limit']} |"
                       f"|Account Status : {self.found_row['Account Status']} |\n")
 
-# Show transaction details of Users
+    # Show transaction details of Users
     def show_transactions(self):
         df = pd.read_csv("File2.csv")
         print(df)
 
-# Freeze Account
+    # Freeze Account
     def freeze_acount(self):
         self.acctF = input("ACCOUNT NUMBER : ")
         with open("File1.csv", 'r') as fs:
@@ -87,7 +88,7 @@ class ADMIN:
             else:
                 print("\nENTER VALID ACCOUNT NUMMBER\n")
 
-# Set Limit For the user
+    # Set Limit For the user
     def set_limit(self):
         self.account = str(input("TYPE ACCOUNT NUMBER : "))
         with open("File1.csv", 'r') as fl:
@@ -106,7 +107,7 @@ class ADMIN:
                     filei.writerows(self.user_data_0)
                     fsl.close()
 
-# Delete account
+    # Delete account
     def delete_account(self):
         self.accountNumber = str(input("ENTER ACCOUNT NUMBER TO DELETE THE ACCOUNT : "))
         self.found = True
@@ -126,3 +127,6 @@ class ADMIN:
             writefile.close()
         else:
             print("\n RECORD NOT FOUND \n")
+
+    def reports(self):
+        pass

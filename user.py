@@ -17,8 +17,8 @@ class USER(admin.ADMIN):
 
     # user login
     def user_login(self):
-        self.typeAccNum = str(input("ENTER YOUR ACCOUNT NUMBER : "))
-        self.pin = input("ENTER ACCOUNT PIN : ")
+        self.typeAccNum = str(input("ENTER YOUR ACCOUNT NUMBER\t: "))
+        self.pin = input("ENTER ACCOUNT PIN\t: ")
         self.user_info_1 = {}
         with open('File1.csv', 'r') as rf:
             file = csv.reader(rf)
@@ -41,7 +41,9 @@ class USER(admin.ADMIN):
 
     # check balance
     def check_balance(self):
+        print(f"\n---------------------------------------\n")
         print(f"AVAILABLE BALANCE : {self.user_info_1['Balance']} Rs.")
+        print(f"\n---------------------------------------\n")
 
     # File Update
     def update_balance(self, account_number, balance):
@@ -86,11 +88,12 @@ class USER(admin.ADMIN):
         self.account_1 = t_account
         self.account_2 = f_account
         self.amount = amount
-        self.date = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        self.date = datetime.datetime.now().strftime("%Y-%m-%d")
+        self.time = datetime.datetime.now().strftime("%H:%M:%S")
         self.Transaction_data = {'Amount': self.amount, 'From Account': self.account_2,
-                                 'To Account': self.account_1, 'Date': self.date}
+                                 'To Account': self.account_1, 'Date': self.date, 'Time': self.time}
         with open('File2.csv', 'a', newline='') as file:
-            field_name = ['Amount', 'From Account', 'To Account', 'Date']
+            field_name = ['Amount', 'From Account', 'To Account', 'Date', 'Time']
             self.infile = csv.DictWriter(file, fieldnames=field_name)
             self.infile.writerow(self.Transaction_data)
             file.close()
@@ -107,13 +110,16 @@ class USER(admin.ADMIN):
     def withdraw(self):
         self.balance = int(self.user_info_1['Balance'])
         self.tlimit = int(self.user_info_1['Transfer Limit'])
-        self.withdraw = int(input(" ENTER AMOUNT YOU WANT TO WITHDRAW : "))
+        self.withdraw = int(input(" ENTER AMOUNT YOU WANT TO WITHDRAW \t: "))
         if self.balance >= self.withdraw:
             if self.tlimit >= self.withdraw:
                 self.remaining = self.balance - self.withdraw
                 self.tlimit_remaining = self.tlimit - self.withdraw
-                print(f"YOUR REMAINING BALANCE IS {self.remaining} Rs."
-                      f"YOUR REMAING TRANSACTION LIMIT IS {self.tlimit_remaining} RS")
+                print(f"\n------------------------------------------\n"
+                      f"YOUR REMAINING BALANCE IS |{self.remaining} Rs.|"
+                      f"\n------------------------------------------\n"
+                      f"YOUR REMAINING TRANSACTION LIMIT IS |{self.tlimit_remaining} Rs|"
+                      f"\n------------------------------------------\n")
                 self.update_balance(self.user_info_1['Account Number'], self.remaining)
                 self.update_transaction_limit(self.user_info_1['Account Number'], self.tlimit_remaining)
                 self.update_transaction('Withdrawed', self.user_info_1['Account Number'], self.withdraw)
