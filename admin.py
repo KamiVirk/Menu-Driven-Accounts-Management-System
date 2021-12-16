@@ -139,7 +139,7 @@ class ADMIN:
                 writer.writerows(line)
             writefile.close()
         else:
-            print("\n RECORD NOT FOUND \n")
+            print("\n RECORD NOT FOUND!\n")
 
     """def reports(self):
 
